@@ -48,14 +48,10 @@ const cancelUpdateBtn = document.getElementById('cancel-update');
 // Current Editing Unique ID
 let currentEditId = null;
 
-// Generate Unique ID
-function generateUniqueId() {
-    return Math.random().toString(36).substr(2, 16);
-}
-
 // Fetch and Display RSVPs
 function fetchRSVPs() {
     const rsvpRef = ref(db, 'rsvps/');
+    console.log(rsvpRef);
     onValue(rsvpRef, (snapshot) => {
         rsvpList.innerHTML = '';
         snapshot.forEach((childSnapshot) => {
@@ -63,7 +59,7 @@ function fetchRSVPs() {
             const tr = document.createElement('tr');
 
             tr.innerHTML = `
-                <td>${rsvp.unique_id}</td>
+                <td>${childSnapshot.key}</td>
                 <td>${rsvp.name}</td>
                 <td>${rsvp.willJoin ? 'Yes' : 'No'}</td>
                 <td>${rsvp.numberOfGuest}</td>
@@ -84,7 +80,6 @@ function fetchRSVPs() {
 rsvpForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const unique_id = currentEditId ? document.getElementById('unique_id').value : generateUniqueId();
     const name = document.getElementById('name').value.trim();
     const willJoin = document.getElementById('willJoin').checked;
     const numberOfGuest = parseInt(document.getElementById('numberOfGuest').value, 10);
@@ -92,7 +87,6 @@ rsvpForm.addEventListener('submit', (e) => {
     const message = document.getElementById('message').value.trim();
 
     const rsvpData = {
-        unique_id,
         name,
         willJoin,
         numberOfGuest,
@@ -108,7 +102,6 @@ rsvpForm.addEventListener('submit', (e) => {
                 alert('RSVP updated successfully!');
                 rsvpForm.reset();
                 currentEditId = null;
-                document.getElementById('unique_id').value = '';
                 cancelUpdateBtn.classList.add('hidden');
             })
             .catch((error) => {
@@ -136,7 +129,6 @@ rsvpList.addEventListener('click', (e) => {
         onValue(rsvpRef, (snapshot) => {
             if (snapshot.exists()) {
                 const rsvp = snapshot.val();
-                document.getElementById('unique_id').value = rsvp.unique_id;
                 document.getElementById('name').value = rsvp.name;
                 document.getElementById('willJoin').checked = rsvp.willJoin;
                 document.getElementById('numberOfGuest').value = rsvp.numberOfGuest;
@@ -169,7 +161,6 @@ rsvpList.addEventListener('click', (e) => {
 cancelUpdateBtn.addEventListener('click', () => {
     rsvpForm.reset();
     currentEditId = null;
-    document.getElementById('unique_id').value = '';
     cancelUpdateBtn.classList.add('hidden');
 });
 
