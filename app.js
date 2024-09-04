@@ -64,7 +64,7 @@ function fetchRSVPs() {
                 <td>${rsvp.willJoin ? 'Yes' : 'No'}</td>
                 <td>${rsvp.numberOfGuest}</td>
                 <td>${rsvp.email}</td>
-                <td>${rsvp.message}</td>
+                <td>${rsvp.pronoun}</td>
                 <td>
                     <button class="action-btn edit-btn" data-id="${childSnapshot.key}">Edit</button>
                     <button class="action-btn delete-btn" data-id="${childSnapshot.key}">Delete</button>
@@ -84,14 +84,14 @@ rsvpForm.addEventListener('submit', (e) => {
     const willJoin = document.getElementById('willJoin').checked;
     const numberOfGuest = parseInt(document.getElementById('numberOfGuest').value, 10);
     const email = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
+    const pronoun = document.getElementById('pronoun').value.trim();
 
     const rsvpData = {
         name,
         willJoin,
         numberOfGuest,
         email,
-        message
+        pronoun
     };
 
     if (currentEditId) {
@@ -133,7 +133,7 @@ rsvpList.addEventListener('click', (e) => {
                 document.getElementById('willJoin').checked = rsvp.willJoin;
                 document.getElementById('numberOfGuest').value = rsvp.numberOfGuest;
                 document.getElementById('email').value = rsvp.email;
-                document.getElementById('message').value = rsvp.message;
+                document.getElementById('pronoun').value = rsvp.pronoun;
                 currentEditId = docId;
                 cancelUpdateBtn.classList.remove('hidden');
             }
