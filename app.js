@@ -60,7 +60,7 @@ function fetchRSVPs() {
             tr.innerHTML = `
                 <td>${childSnapshot.key}</td>
                 <td>${rsvp.name}</td>
-                <td>${rsvp?.willJoin === true ? 'Yes' : (rsvp?.willJoin === false ? 'No' : 'Unanswered')}</td>
+                <td>${rsvp?.willJoin == "true" ? 'Yes' : (rsvp?.willJoin == "false" ? 'No' : 'Unanswered')}</td>
                 <td>${rsvp.numberOfGuest}</td>
                 <td>${rsvp.email}</td>
                 <td>${rsvp.pronoun}</td>
@@ -68,6 +68,7 @@ function fetchRSVPs() {
                     <button class="action-btn edit-btn" data-id="${childSnapshot.key}">Edit</button>
                     <button class="action-btn delete-btn" data-id="${childSnapshot.key}">Delete</button>
                 </td>
+                <td><a href="${'https://wedding-invite.phuocnghi.live/' + childSnapshot.key}">link</a></td>
             `;
 
             rsvpList.appendChild(tr);
@@ -80,8 +81,8 @@ rsvpForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const name = document.getElementById('name').value.trim();
-    const willMaybeJoin = document.getElementById('willMaybeJoin').checked;
-    const willJoin = document.getElementById('willJoin').checked;
+    const willJoin= document.querySelector('input[name="willJoin"]:checked').value;
+
     const numberOfGuest = parseInt(document.getElementById('numberOfGuest').value, 10);
     const email = document.getElementById('email').value.trim();
     const pronoun = document.getElementById('pronoun').value.trim();
@@ -91,18 +92,8 @@ rsvpForm.addEventListener('submit', (e) => {
         numberOfGuest,
         email,
         pronoun,
+        willJoin,
     };
-
-    if (!willMaybeJoin) {
-        rsvpData = {
-            ...rsvpData,
-            willJoin,
-        };
-    } else {
-        if (rsvpData?.willJoin) {
-            delete rsvpData.willJoin;
-        }
-    }
 
     if (currentEditId) {
         // Update existing RSVP
@@ -140,8 +131,13 @@ rsvpList.addEventListener('click', (e) => {
             if (snapshot.exists()) {
                 const rsvp = snapshot.val();
                 document.getElementById('name').value = rsvp.name;
-                document.getElementById('willJoin').checked = rsvp?.willJoin;
-                document.getElementById('willMaybeJoin').checked = rsvp?.willJoin == undefined;
+                if (rsvp?.willJoin == "true") {
+                    document.getElementById('joinYes').checked = true;
+                } else if (rsvp?.willJoin == "false") {
+                    document.getElementById('joinNo').checked = true;
+                } else {
+                    document.getElementById('joinMaybe').checked = true;
+                }
                 document.getElementById('numberOfGuest').value = rsvp.numberOfGuest;
                 document.getElementById('email').value = rsvp.email;
                 document.getElementById('pronoun').value = rsvp.pronoun;

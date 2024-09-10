@@ -21,14 +21,21 @@
                 <label for="name">Name:</label>
                 <input type="text" id="name" required>
             </div>
-            <div class="form-group">
-                <label for="willMaybeJoin">Will Maybe Join:</label>
-                <input type="checkbox" id="willMaybeJoin" checked>
-            </div>
+
             <div class="form-group">
                 <label for="willJoin">Will Join:</label>
-                <input type="checkbox" id="willJoin">
+                <label>
+                    <input type="radio" name="willJoin" value="true" id="joinYes"> Yes
+                  </label>
+            
+                  <label>
+                    <input type="radio" name="willJoin" value="false" id="joinNo"> No
+                  </label>
+                  <label>
+                    <input type="radio" name="willJoin" value="undefined" id="joinMaybe"> Unanswered
+                  </label>
             </div>
+
             <div class="form-group">
                 <label for="numberOfGuest">Number of Guests:</label>
                 <input type="number" id="numberOfGuest" min="0" value="0">
@@ -62,6 +69,7 @@
                     <th>Email</th>
                     <th>Pronoun</th>
                     <th>Actions</th>
+                    <th>URL</th>
                 </tr>
             </thead>
             <tbody id="rsvp-list">
