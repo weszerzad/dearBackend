@@ -51,7 +51,6 @@ let currentEditId = null;
 // Fetch and Display RSVPs
 function fetchRSVPs() {
     const rsvpRef = ref(db, 'rsvps/');
-    console.log(rsvpRef);
     onValue(rsvpRef, (snapshot) => {
         rsvpList.innerHTML = '';
         snapshot.forEach((childSnapshot) => {
@@ -61,7 +60,7 @@ function fetchRSVPs() {
             tr.innerHTML = `
                 <td>${childSnapshot.key}</td>
                 <td>${rsvp.name}</td>
-                <td>${rsvp.willJoin ? 'Yes' : 'No'}</td>
+                <td>${rsvp?.willJoin === true ? 'Yes' : (rsvp?.willJoin === false ? 'No' : 'Unanswered')}</td>
                 <td>${rsvp.numberOfGuest}</td>
                 <td>${rsvp.email}</td>
                 <td>${rsvp.pronoun}</td>
@@ -81,18 +80,29 @@ rsvpForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const name = document.getElementById('name').value.trim();
+    const willMaybeJoin = document.getElementById('willMaybeJoin').checked;
     const willJoin = document.getElementById('willJoin').checked;
     const numberOfGuest = parseInt(document.getElementById('numberOfGuest').value, 10);
     const email = document.getElementById('email').value.trim();
     const pronoun = document.getElementById('pronoun').value.trim();
 
-    const rsvpData = {
+    let rsvpData = {
         name,
-        willJoin,
         numberOfGuest,
         email,
-        pronoun
+        pronoun,
     };
+
+    if (!willMaybeJoin) {
+        rsvpData = {
+            ...rsvpData,
+            willJoin,
+        };
+    } else {
+        if (rsvpData?.willJoin) {
+            delete rsvpData.willJoin;
+        }
+    }
 
     if (currentEditId) {
         // Update existing RSVP
@@ -130,7 +140,8 @@ rsvpList.addEventListener('click', (e) => {
             if (snapshot.exists()) {
                 const rsvp = snapshot.val();
                 document.getElementById('name').value = rsvp.name;
-                document.getElementById('willJoin').checked = rsvp.willJoin;
+                document.getElementById('willJoin').checked = rsvp?.willJoin;
+                document.getElementById('willMaybeJoin').checked = rsvp?.willJoin == undefined;
                 document.getElementById('numberOfGuest').value = rsvp.numberOfGuest;
                 document.getElementById('email').value = rsvp.email;
                 document.getElementById('pronoun').value = rsvp.pronoun;
