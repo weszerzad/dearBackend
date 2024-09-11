@@ -201,15 +201,16 @@
             data-astro-source-file="/Users/phuocpham/Projects/dear/src/pages/index.astro"
             data-astro-source-loc="21:15"
           >
-            <div class="sectitle whitecolor guestcolor" style="font-size: 2.8rem;">
+            <div class="sectitle whitecolor guestcolor" style="font-size: 2.8rem; margin-bottom: 0; padding-bottom: 0;">
               Dear <span class="guest-pronoun">Mr./Mrs./Ms.</span>
             </div>
             <div
               class="sectitle whitecolor guestcolor guest-name"
-              style="font-size: 3.75rem;"
+              style="font-size: 3.75rem; margin-top: 0; padding-top: 0;"
             >
               Guest Name
             </div>
+            <div id="qrcode" style="font-size: 2.8rem; margin-top: 30px; padding: 16px; border-radius: 4px;"></div>
           </center>
           <!-- <button
             class="md-close btnstyle pinkcolor open-button"
@@ -227,11 +228,21 @@
         <!-- script to generate postcard -->
         <button id="generateButton">Generate Postcard</button>
         <p id="status"></p>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+        </script>
         <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
         <script>
 
-                  
-
+            const currentId = localStorage.getItem("currentId");
+            console.log(currentId);
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+              text: "https://wedding-invite.phuocnghi.live/" + currentId,
+              width: 128,
+              height: 128,
+              colorDark : "#000000",
+              colorLight : "#ffffff",
+              correctLevel : QRCode.CorrectLevel.H
+            })
             document.getElementById('generateButton').addEventListener('click', () => {
 
                 const name = document.getElementById('name').value.trim();

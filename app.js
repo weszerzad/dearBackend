@@ -126,6 +126,7 @@ rsvpForm.addEventListener('submit', (e) => {
 rsvpList.addEventListener('click', (e) => {
     if (e.target.classList.contains('edit-btn')) {
         const docId = e.target.getAttribute('data-id');
+        localStorage.setItem("currentId", docId);
         const rsvpRef = ref(db, 'rsvps/' + docId);
         onValue(rsvpRef, (snapshot) => {
             if (snapshot.exists()) {
