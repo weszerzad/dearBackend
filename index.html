@@ -139,7 +139,7 @@
               }
               .content-modal {
                 position: fixed;
-                bottom: 190px;
+                bottom: -900px;
                 width: 100%;
               }
       
@@ -201,27 +201,27 @@
             data-astro-source-file="/Users/phuocpham/Projects/dear/src/pages/index.astro"
             data-astro-source-loc="21:15"
           >
-            <div class="btnstyle whitecolor guestcolor">
+            <div class="sectitle whitecolor guestcolor" style="font-size: 2.8rem;">
               Dear <span class="guest-pronoun">Mr./Mrs./Ms.</span>
             </div>
             <div
-              class="sectitle guestcolor guest-name"
-              style="font-size: 2.75rem"
+              class="sectitle whitecolor guestcolor guest-name"
+              style="font-size: 3.75rem;"
             >
               Guest Name
             </div>
           </center>
-          <button
+          <!-- <button
             class="md-close btnstyle pinkcolor open-button"
             id="fixedbutton"
             data-astro-source-file="/Users/phuocpham/Projects/dear/src/pages/index.astro"
             data-astro-source-loc="33:68"
           >
             OPEN INVITATION
-          </button>
+          </button> -->
         </div>
       </div>
-      <img id="slider" src="/images/IMG_4860.jpg" />
+      <img id="slider" src="images/IMG_4860.jpg" />
         </div>
         
         <!-- script to generate postcard -->
@@ -229,7 +229,28 @@
         <p id="status"></p>
         <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
         <script>
+
+                  
+
             document.getElementById('generateButton').addEventListener('click', () => {
+
+                const name = document.getElementById('name').value.trim();
+                // const willJoin= document.querySelector('input[name="willJoin"]:checked').value;
+
+                // const numberOfGuest = parseInt(document.getElementById('numberOfGuest').value, 10);
+                // const email = document.getElementById('email').value.trim();
+                const pronoun = document.getElementById('pronoun').value.trim();
+
+                const nameElements = document.querySelectorAll(".guest-name");
+                nameElements.forEach((element) => {
+                  element.textContent = name;
+                });
+                document.querySelectorAll(".guest-pronoun").forEach((element) => {
+                  element.textContent = pronoun;
+                });
+
+                
+
                 document.getElementById('status').innerText = 'Generating...';
                 html2canvas(document.getElementById('postcard')).then(canvas => {
                     const imgData = canvas.toDataURL('image/png');
