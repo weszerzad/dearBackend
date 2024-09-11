@@ -95,7 +95,7 @@
                 font-size: 14px;
               }
               .md-modal {
-                position: fixed;
+                /* position: fixed; */
                 left: 0;
                 right: 0;
                 width: 50%;
@@ -112,7 +112,7 @@
                 visibility: visible;
               }
               .md-overlay {
-                position: fixed;
+                /* position: fixed; */
                 width: 100%;
                 height: 100%;
                 visibility: hidden;
@@ -138,8 +138,9 @@
                 opacity: 1;
               }
               .content-modal {
-                position: fixed;
-                bottom: -900px;
+                /* position: fixed; */
+                /* bottom: -900px; */
+                position: relative;
                 width: 100%;
               }
       
@@ -197,9 +198,10 @@
           data-astro-source-file="/Users/phuocpham/Projects/dear/src/pages/index.astro"
           data-astro-source-loc="20:43"
         >
-          <center
+          <!-- <center
             data-astro-source-file="/Users/phuocpham/Projects/dear/src/pages/index.astro"
             data-astro-source-loc="21:15"
+            style="position: absolute; top: 890px; flex: 1; align-self: center; padding-left: 360px;"
           >
             <div class="sectitle whitecolor guestcolor" style="font-size: 2.8rem; margin-bottom: 0; padding-bottom: 0;">
               Dear <span class="guest-pronoun">Mr./Mrs./Ms.</span>
@@ -211,7 +213,10 @@
               Guest Name
             </div>
             <div id="qrcode" style="font-size: 2.8rem; margin-top: 30px; padding: 16px; border-radius: 4px;"></div>
-          </center>
+          </center> -->
+
+          <div id="qrcode" style="position: absolute; top: 1430px; left: 16px"></div>
+
           <!-- <button
             class="md-close btnstyle pinkcolor open-button"
             id="fixedbutton"
