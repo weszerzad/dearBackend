@@ -215,9 +215,37 @@
             </div>
           </button>
         </div>
+
+        <div style="position: absolute; width: 100%; top: 75%;">
+
+          <button
+            class="md-close btnstyle pinkcolor open-button"
+            id="fixedbutton"
+            data-astro-source-file="/Users/phuocpham/Projects/dear/src/pages/index.astro"
+            data-astro-source-loc="33:68"
+          >
+            <div class="guestcolor" style="font-size: 1rem; margin-bottom: 0; padding-bottom: 0;">
+              Kindly scan QR to reply
+            </div>
+            <div style="display: flex; justify-content: center; margin-top: 8px; margin-bottom: 8px">
+              <div id="qrcode" style="align-self: center;"></div>
+            </div>
+            <div class="guestcolor" style="font-size: 1rem; margin-bottom: 0; padding-bottom: 0;">
+              We would be honored<br>
+              by your presence!
+            </div>
+            
+          </button>
+        </div>
+
           <img id="slider" src="images/IMG_4860.jpg" ></img>
         </div>
-        
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
         <!-- script to generate postcard -->
         <button id="generateButton">Generate Postcard</button>
         <p id="status"></p>
@@ -226,8 +254,8 @@
         <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
         <script>
 
-            const currentId = localStorage.getItem("currentId");
-            console.log(currentId);
+            // const currentId = localStorage.getItem("currentId");
+            // console.log(currentId);
             // var qrcode = new QRCode(document.getElementById("qrcode"), {
             //   text: "https://wedding-invite.phuocnghi.live/" + currentId,
             //   width: 90,

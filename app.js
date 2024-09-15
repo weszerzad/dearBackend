@@ -126,7 +126,6 @@ rsvpForm.addEventListener('submit', (e) => {
 rsvpList.addEventListener('click', (e) => {
     if (e.target.classList.contains('edit-btn')) {
         const docId = e.target.getAttribute('data-id');
-        localStorage.setItem("currentId", docId);
         const rsvpRef = ref(db, 'rsvps/' + docId);
 
         
@@ -134,6 +133,7 @@ rsvpList.addEventListener('click', (e) => {
             if (snapshot.exists()) {
                 const rsvp = snapshot.val();
 
+                // fill guest name and pronoun
                 document.querySelectorAll(".guest-name").forEach((element) => {
                     element.textContent = rsvp.name;
                 });
@@ -141,6 +141,18 @@ rsvpList.addEventListener('click', (e) => {
                     element.textContent = rsvp.pronoun;
                 });
 
+                // generate qr code
+                document.getElementById('qrcode').innerHTML = '';
+                var qrcode = new QRCode(document.getElementById("qrcode"), {
+                    text: "https://wedding-invite.phuocnghi.live/" + docId,
+                    width: 80,
+                    height: 80,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                  })
+                
+                  // fill rsvp form
                 document.getElementById('name').value = rsvp.name;
                 if (rsvp?.willJoin == "true") {
                     document.getElementById('joinYes').checked = true;
