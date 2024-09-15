@@ -64,6 +64,7 @@
               href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Birthstone&family=Cormorant+Garamond&family=Dancing+Script&family=Great+Vibes&family=Imperial+Script&family=Libre+Bodoni&family=Macondo&family=Montserrat:wght@500&family=Nunito+Sans&family=Satisfy&family=Vujahday+Script&display=swap"
               rel="stylesheet"
             />
+            <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
             <link
@@ -146,6 +147,13 @@
       
               .sectitle {
                 font-family: "Imperial Script", cursive;
+                font-weight: 900;
+              }
+              .dearText {
+                font-family: "EB Garamond", serif;
+                font-optical-sizing: auto;
+                font-weight: 400;
+                font-style: normal;
               }
               .btnstyle {
                 font-family: Montserrat, sans-serif;
@@ -160,7 +168,7 @@
                 color: #8d181b;
               }
               .pinkcolor {
-                color: #e6ac9d;
+                color: #db7ad6;
               }
               @keyframes blink {
                 0% {
@@ -186,24 +194,17 @@
           </div>
 
         <!-- postcard -->
-        <div class="postcard" id="postcard">
+        <div style="position: relative" class="postcard" id="postcard">
             
-            <div
-        class="md-modal md-effect-12 md-show"
-        data-astro-source-file="/Users/phuocpham/Projects/dear/src/pages/index.astro"
-        data-astro-source-loc="19:38"
-      >
-        <div
-          class="md-content content-modal"
-          data-astro-source-file="/Users/phuocpham/Projects/dear/src/pages/index.astro"
-          data-astro-source-loc="20:43"
-        >
-          <!-- <center
+        <div style="position: absolute; width: 100%; top: 55%;">
+
+          <button
+            class="md-close btnstyle pinkcolor open-button"
+            id="fixedbutton"
             data-astro-source-file="/Users/phuocpham/Projects/dear/src/pages/index.astro"
-            data-astro-source-loc="21:15"
-            style="position: absolute; top: 890px; flex: 1; align-self: center; padding-left: 360px;"
+            data-astro-source-loc="33:68"
           >
-            <div class="sectitle whitecolor guestcolor" style="font-size: 2.8rem; margin-bottom: 0; padding-bottom: 0;">
+            <div class="whitecolor guestcolor guestcolor dearText" style="font-size: 2rem; margin-bottom: 0; padding-bottom: 0;">
               Dear <span class="guest-pronoun">Mr./Mrs./Ms.</span>
             </div>
             <div
@@ -212,22 +213,9 @@
             >
               Guest Name
             </div>
-            <div id="qrcode" style="font-size: 2.8rem; margin-top: 30px; padding: 16px; border-radius: 4px;"></div>
-          </center> -->
-
-          <div id="qrcode" style="position: absolute; top: 16px; left: 16px"></div>
-
-          <!-- <button
-            class="md-close btnstyle pinkcolor open-button"
-            id="fixedbutton"
-            data-astro-source-file="/Users/phuocpham/Projects/dear/src/pages/index.astro"
-            data-astro-source-loc="33:68"
-          >
-            OPEN INVITATION
-          </button> -->
+          </button>
         </div>
-      </div>
-      <img id="slider" src="images/IMG_4860.jpg" />
+          <img id="slider" src="images/IMG_4860.jpg" ></img>
         </div>
         
         <!-- script to generate postcard -->
@@ -240,30 +228,30 @@
 
             const currentId = localStorage.getItem("currentId");
             console.log(currentId);
-            var qrcode = new QRCode(document.getElementById("qrcode"), {
-              text: "https://wedding-invite.phuocnghi.live/" + currentId,
-              width: 90,
-              height: 90,
-              colorDark : "#000000",
-              colorLight : "#ffffff",
-              correctLevel : QRCode.CorrectLevel.H
-            })
+            // var qrcode = new QRCode(document.getElementById("qrcode"), {
+            //   text: "https://wedding-invite.phuocnghi.live/" + currentId,
+            //   width: 90,
+            //   height: 90,
+            //   colorDark : "#000000",
+            //   colorLight : "#ffffff",
+            //   correctLevel : QRCode.CorrectLevel.H
+            // })
             document.getElementById('generateButton').addEventListener('click', () => {
 
-                const name = document.getElementById('name').value.trim();
+                // const name = document.getElementById('name').value.trim();
                 // const willJoin= document.querySelector('input[name="willJoin"]:checked').value;
 
                 // const numberOfGuest = parseInt(document.getElementById('numberOfGuest').value, 10);
                 // const email = document.getElementById('email').value.trim();
-                const pronoun = document.getElementById('pronoun').value.trim();
+                // const pronoun = document.getElementById('pronoun').value.trim();
 
-                const nameElements = document.querySelectorAll(".guest-name");
-                nameElements.forEach((element) => {
-                  element.textContent = name;
-                });
-                document.querySelectorAll(".guest-pronoun").forEach((element) => {
-                  element.textContent = pronoun;
-                });
+                // const nameElements = document.querySelectorAll(".guest-name");
+                // nameElements.forEach((element) => {
+                //   element.textContent = name;
+                // });
+                // document.querySelectorAll(".guest-pronoun").forEach((element) => {
+                //   element.textContent = pronoun;
+                // });
 
                 
 

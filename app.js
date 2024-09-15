@@ -128,9 +128,19 @@ rsvpList.addEventListener('click', (e) => {
         const docId = e.target.getAttribute('data-id');
         localStorage.setItem("currentId", docId);
         const rsvpRef = ref(db, 'rsvps/' + docId);
+
+        
         onValue(rsvpRef, (snapshot) => {
             if (snapshot.exists()) {
                 const rsvp = snapshot.val();
+
+                document.querySelectorAll(".guest-name").forEach((element) => {
+                    element.textContent = rsvp.name;
+                });
+                document.querySelectorAll(".guest-pronoun").forEach((element) => {
+                    element.textContent = rsvp.pronoun;
+                });
+
                 document.getElementById('name').value = rsvp.name;
                 if (rsvp?.willJoin == "true") {
                     document.getElementById('joinYes').checked = true;
