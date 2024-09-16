@@ -69,6 +69,8 @@ function fetchRSVPs() {
                     <button class="action-btn delete-btn" data-id="${childSnapshot.key}">Delete</button>
                 </td>
                 <td><a href="${'https://wedding-invite.phuocnghi.live/' + childSnapshot.key}">link</a></td>
+                <td>${rsvp.vegetarian}</td>
+                <td>${rsvp.note}</td>
             `;
 
             rsvpList.appendChild(tr);
@@ -87,12 +89,17 @@ rsvpForm.addEventListener('submit', (e) => {
     const email = document.getElementById('email').value.trim();
     const pronoun = document.getElementById('pronoun').value.trim();
 
+    const vegetarian = document.getElementById('vegetarian').checked;
+    const note = document.getElementById('note').value.trim();
+
     let rsvpData = {
         name,
         numberOfGuest,
         email,
         pronoun,
         willJoin,
+        vegetarian,
+        note,
     };
 
     if (currentEditId) {
@@ -164,6 +171,8 @@ rsvpList.addEventListener('click', (e) => {
                 document.getElementById('numberOfGuest').value = rsvp.numberOfGuest;
                 document.getElementById('email').value = rsvp.email;
                 document.getElementById('pronoun').value = rsvp.pronoun;
+                document.getElementById('vegetarian').checked = rsvp.vegetarian;
+                document.getElementById('note').value = rsvp.note;
                 currentEditId = docId;
                 cancelUpdateBtn.classList.remove('hidden');
             }
