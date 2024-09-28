@@ -157,6 +157,19 @@
           </div>
 
           <div class="form-group">
+              <label for="willJoinQN">Will Join in Quang Ngai:</label>
+              <label>
+                  <input type="radio" name="willJoinQN" value="true" id="joinQNYes"> Yes
+                </label>
+          
+                <label>
+                  <input type="radio" name="willJoinQN" value="false" id="joinQNNo"> No
+                </label>
+                <label>
+                  <input type="radio" name="willJoinQN" value="undefined" id="joinQNMaybe"> Unanswered
+                </label>
+          </div>
+          <div class="form-group">
               <label for="willJoin">Will Join:</label>
               <label>
                   <input type="radio" name="willJoin" value="true" id="joinYes"> Yes
@@ -167,6 +180,19 @@
                 </label>
                 <label>
                   <input type="radio" name="willJoin" value="undefined" id="joinMaybe"> Unanswered
+                </label>
+          </div>
+          <div class="form-group">
+              <label for="willJoinOther">Will Join:</label>
+              <label>
+                  <input type="radio" name="willJoinOther" value="true" id="joinOtherYes"> Yes
+                </label>
+          
+                <label>
+                  <input type="radio" name="willJoinOther" value="false" id="joinOtherNo"> No
+                </label>
+                <label>
+                  <input type="radio" name="willJoinOther" value="undefined" id="joinOtherMaybe"> Unanswered
                 </label>
           </div>
 
@@ -430,6 +456,8 @@
                   <th>URL</th>
                   <th>Vegetarian</th>
                   <th>Note</th>
+                  <th>Will Join in Quang Ngai</th>
+                  <th>Will Join at another time</th>
               </tr>
           </thead>
           <tbody id="rsvp-list">

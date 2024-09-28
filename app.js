@@ -71,6 +71,8 @@ function fetchRSVPs() {
                 <td><a href="${'https://wedding-invite.phuocnghi.live/' + childSnapshot.key}">link</a></td>
                 <td>${rsvp.vegetarian}</td>
                 <td>${rsvp.note}</td>
+                <td>${rsvp?.willJoinQN == "true" ? 'Yes' : (rsvp?.willJoinQN == "false" ? 'No' : 'Unanswered')}</td>
+                <td>${rsvp?.willJoinOther == "true" ? 'Yes' : (rsvp?.willJoinOther == "false" ? 'No' : 'Unanswered')}</td>
             `;
 
             rsvpList.appendChild(tr);
@@ -84,6 +86,8 @@ rsvpForm.addEventListener('submit', (e) => {
 
     const name = document.getElementById('name').value.trim();
     const willJoin= document.querySelector('input[name="willJoin"]:checked').value;
+    const willJoinQN= document.querySelector('input[name="willJoinQN"]:checked').value;
+    const willJoinOther= document.querySelector('input[name="willJoinOther"]:checked').value;
 
     const numberOfGuest = parseInt(document.getElementById('numberOfGuest').value, 10);
     const email = document.getElementById('email').value.trim();
@@ -98,6 +102,8 @@ rsvpForm.addEventListener('submit', (e) => {
         email,
         pronoun,
         willJoin,
+        willJoinQN,
+        willJoinOther,
         vegetarian,
         note,
     };
@@ -168,6 +174,23 @@ rsvpList.addEventListener('click', (e) => {
                 } else {
                     document.getElementById('joinMaybe').checked = true;
                 }
+
+                if (rsvp?.willJoinQN == "true") {
+                    document.getElementById('joinQNYes').checked = true;
+                } else if (rsvp?.willJoinQN == "false") {
+                    document.getElementById('joinQNNo').checked = true;
+                } else {
+                    document.getElementById('joinQNMaybe').checked = true;
+                }
+
+                if (rsvp?.willJoinOther == "true") {
+                    document.getElementById('joinOtherYes').checked = true;
+                } else if (rsvp?.willJoinOther == "false") {
+                    document.getElementById('joinOtherNo').checked = true;
+                } else {
+                    document.getElementById('joinOtherMaybe').checked = true;
+                }
+
                 document.getElementById('numberOfGuest').value = rsvp.numberOfGuest;
                 document.getElementById('email').value = rsvp.email;
                 document.getElementById('pronoun').value = rsvp.pronoun;
