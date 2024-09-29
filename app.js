@@ -50,6 +50,9 @@ let currentEditId = null;
 
 // Fetch and Display RSVPs
 function fetchRSVPs() {
+
+    const selectedLanguage = document.getElementById('language-select').value;
+
     const rsvpRef = ref(db, 'rsvps/');
     onValue(rsvpRef, (snapshot) => {
         rsvpList.innerHTML = '';
@@ -68,11 +71,15 @@ function fetchRSVPs() {
                     <button class="action-btn edit-btn" data-id="${childSnapshot.key}">Edit</button>
                     <button class="action-btn delete-btn" data-id="${childSnapshot.key}">Delete</button>
                 </td>
-                <td><a href="${'https://wedding-invite.phuocnghi.live/' + childSnapshot.key}">link</a></td>
+                <td><a href="${'https://wedding-invite.phuocnghi.live/' + childSnapshot.key + (selectedLanguage === 'vi' ? '?lang=vi' : '')}">link</a></td>
                 <td>${rsvp.vegetarian}</td>
                 <td>${rsvp.note}</td>
                 <td>${rsvp?.willJoinQN == "true" ? 'Yes' : (rsvp?.willJoinQN == "false" ? 'No' : 'Unanswered')}</td>
                 <td>${rsvp?.willJoinOther == "true" ? 'Yes' : (rsvp?.willJoinOther == "false" ? 'No' : 'Unanswered')}</td>
+                <td>${rsvp.wePronoun}</td>
+                <td>${rsvp.dearText}</td>
+                <td>${rsvp.formality}</td>
+                <td>${rsvp.hidePronounWithName}</td>
             `;
 
             rsvpList.appendChild(tr);
@@ -92,7 +99,11 @@ rsvpForm.addEventListener('submit', (e) => {
     const numberOfGuest = parseInt(document.getElementById('numberOfGuest').value, 10);
     const email = document.getElementById('email').value.trim();
     const pronoun = document.getElementById('pronoun').value.trim();
+    const wePronoun = document.getElementById('wePronoun').value.trim();
+    const dearText = document.getElementById('dearText').value.trim();
 
+    const formality = document.getElementById('formality').checked;
+    const hidePronounWithName = document.getElementById('hidePronounWithName').checked;
     const vegetarian = document.getElementById('vegetarian').checked;
     const note = document.getElementById('note').value.trim();
 
@@ -101,6 +112,10 @@ rsvpForm.addEventListener('submit', (e) => {
         numberOfGuest,
         email,
         pronoun,
+        wePronoun,
+        dearText,
+        formality,
+        hidePronounWithName,
         willJoin,
         willJoinQN,
         willJoinOther,
@@ -194,6 +209,10 @@ rsvpList.addEventListener('click', (e) => {
                 document.getElementById('numberOfGuest').value = rsvp.numberOfGuest;
                 document.getElementById('email').value = rsvp.email;
                 document.getElementById('pronoun').value = rsvp.pronoun;
+                document.getElementById('wePronoun').value = rsvp.wePronoun;
+                document.getElementById('dearText').value = rsvp.dearText;
+                document.getElementById('formality').checked = rsvp.formality;
+                document.getElementById('hidePronounWithName').checked = rsvp.hidePronounWithName;
                 document.getElementById('vegetarian').checked = rsvp.vegetarian;
                 document.getElementById('note').value = rsvp.note;
                 currentEditId = docId;
