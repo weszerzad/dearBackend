@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event RSVP App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+
+    <center>
+      <button id="toggleWishesButton" style="background-color: #6a00ff;">Toggle Wish Posts</button>
+      <button id="toggleRSVPButton" style="background-color: #00d0ff;">Toggle RSVP Event</button>
+    </center>
+
+    <script>
+      document.getElementById('toggleWishesButton').addEventListener('click', function() {
+          var element = document.getElementById('wishes-container');
+          if (element.style.display === 'none' || element.style.display === '') {
+              element.style.display = 'block';
+          } else {
+              element.style.display = 'none';
+          }
+      });
+      document.getElementById('toggleRSVPButton').addEventListener('click', function() {
+          var element = document.getElementById('rsvp-container');
+          if (element.style.display === 'none' || element.style.display === '') {
+              element.style.display = 'block';
+          } else {
+              element.style.display = 'none';
+          }
+      });
+  </script>
+
+    <div
+      id="wishes-container"
+      class="container"
+      style="
+        .wishes-container {
+          max-width: 600px;
+          margin: 50px auto;
+          padding: 20px;
+          background: #fff;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+          text-align: center;
+        }
+
+        form {
+          display: flex;
+          flex-direction: column;
+        }
+
+        input,
+        textarea {
+          margin-bottom: 10px;
+          padding: 10px;
+          font-size: 16px;
+        }
+
+        button {
+          padding: 10px;
+          font-size: 16px;
+          background: #007bff;
+          color: #fff;
+          border: none;
+          cursor: pointer;
+        }
+
+        button:hover {
+          background: #0056b3;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+        }
+
+        th,
+        td {
+          padding: 10px;
+          border: 1px solid #ddd;
+          text-align: left;
+        }
+
+        th {
+          background-color: #f2f2f2;
+        }
+
+        .actions button {
+          background: #dc3545;
+          color: #fff;
+          border: none;
+          padding: 5px 10px;
+          cursor: pointer;
+        }
+
+        .actions button.edit {
+          background: #28a745;
+        }
+
+        .actions button:hover {
+          background: #c82333;
+        }
+
+        .actions button.edit:hover {
+          background: #218838;
+        }
+      "
+    >
+      <h1>Wish Posts</h1>
+      <form id="postForm">
+        <input type="hidden" id="postId" />
+        <input type="text" id="wisherName" placeholder="Name" required />
+        <textarea id="wisherMessage" placeholder="Message" required></textarea>
+        <div class="form-group">
+          <label for="isShown">Display this post </label>
+          <input type="checkbox" id="isShown" />
+        </div>
+        <button type="submit">Add Post</button>
+        <button
+          type="button"
+          id="wishes-cancel-update"
+          class="hidden delete-btn"
+        >
+          Cancel
+        </button>
+      </form>
+      <table id="postsTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Message</th>
+            <th>DateTime</th>
+            <th>Actions</th>
+            <th>isShown</th>
+          </tr>
+        </thead>
+        <tbody id="posts"></tbody>
+      </table>
+      <div id="posts"></div>
+    </div>
+
+    <div id="rsvp-container" class="container">
+      <h1>Event RSVP</h1>
+
+      <select id="language-select">
+        <option value="en">English</option>
+        <option value="vi">Vietnamese</option>
+        <!-- Add more languages as needed -->
+      </select>
+      
+      <script>
+        function changeLanguage(event) {
+          var selectedLanguage = event.target.value;
+          // Add your language change logic here
+          console.log(`Language changed to: ${selectedLanguage}`);
+          location.reload();
+
+          // if (selectedLanguage === 'vi') {
+          //   document.getElementById('dearLocaleText').textContent = 'Thân gửi'
+          //   document.getElementById('joyfullyInviteYouText').textContent = `Mời bạn đến dự<br>
+          //   đám cưới của chúng mình`;
+          //   document.getElementById('pleaseScanToVisit').textContent = `Bạn có thể quét mã để truy cập<br>trang web của chúng mình.`;
+          // } else {
+          //   document.getElementById('dearLocaleText').textContent = 'Dear';
+          //   document.getElementById('joyfullyInviteYouText').textContent = `We joyfully invite you<br>
+          //   to our wedding`;
+          //   document.getElementById('pleaseScanToVisit').textContent = `Please scan to visit<br>
+          //   our wedding website`;
+          // }
+        }
+      
+        document.getElementById('language-select').addEventListener('change', () => changeLanguage);
+      </script>
+      
+      <!-- Form to Add or Update RSVP -->
+      <form id="rsvp-form">
+          <input type="hidden" id="unique_id">
+          <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" id="name" required>
+          </div>
+
+          <div class="form-group">
+              <label for="willJoinQN">Will Join in Quang Ngai:</label>
+              <label>
+                  <input type="radio" name="willJoinQN" value="true" id="joinQNYes"> Yes
+                </label>
+          
+                <label>
+                  <input type="radio" name="willJoinQN" value="false" id="joinQNNo"> No
+                </label>
+                <label>
+                  <input type="radio" name="willJoinQN" value="undefined" id="joinQNMaybe"> Unanswered
+                </label>
+          </div>
+          <div class="form-group">
+              <label for="willJoin">Will Join:</label>
+              <label>
+                  <input type="radio" name="willJoin" value="true" id="joinYes"> Yes
+                </label>
+          
+                <label>
+                  <input type="radio" name="willJoin" value="false" id="joinNo"> No
+                </label>
+                <label>
+                  <input type="radio" name="willJoin" value="undefined" id="joinMaybe"> Unanswered
+                </label>
+          </div>
+          <div class="form-group">
+              <label for="willJoinOther">Will Join:</label>
+              <label>
+                  <input type="radio" name="willJoinOther" value="true" id="joinOtherYes"> Yes
+                </label>
+          
+                <label>
+                  <input type="radio" name="willJoinOther" value="false" id="joinOtherNo"> No
+                </label>
+                <label>
+                  <input type="radio" name="willJoinOther" value="undefined" id="joinOtherMaybe"> Unanswered
+                </label>
+          </div>
+
+          <div class="form-group">
+              <label for="numberOfGuest">Number of Guests:</label>
+              <input type="number" id="numberOfGuest" min="0" value="0">
+          </div>
+          <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email">
+          </div>
+          <div class="form-group">
+              <label for="pronoun">Pronoun:</label>
+              <!-- <textarea id="pronoun" rows="3"></textarea> -->
+              <select id="pronoun" name="pronoun">
+                  <option value="Mr.">Mr.</option>
+                  <option value="Mrs.">Mrs.</option>
+                  <option value="Ms.">Ms.</option>
+                  <option value="Bạn">Bạn</option>
+                  <option value="Hai Bạn">Hai Bạn</option>
+                  <option value="Anh">Anh</option>
+                  <option value="Chị">Chị</option>
+                  <option value="Anh Chị">Anh Chị</option>
+                  <option value="Em">Em</option>
+                  <option value="Bác">Bác</option>
+                  <option value="Ông">Ông</option>
+                  <option value="Bà">Bà</option>
+                  <option value="Cháu">Cháu</option>
+                  <option value=""></option>
+              </select>
+          </div>
+          <div class="form-group">
+              <label for="wePronoun">We Pronoun:</label>
+              <!-- <textarea id="pronoun" rows="3"></textarea> -->
+              <select id="wePronoun" name="wePronoun">
+                  <option value="Chúng mình">Chúng mình</option>
+                  <option value="Phước & Nghi">Phước & Nghi</option>
+                  <option value="Chúng tôi">Chúng tôi</option>
+                  <option value="Chúng em">Chúng em</option>
+                  <option value="Chúng cháu">Chúng cháu</option>
+                  <option value="Vợ chồng tôi">Vợ chồng tôi</option>
+                  <option value="Vợ chồng em">Vợ chồng em</option>
+                  <option value="Vợ chồng mình">Vợ chồng mình</option>
+                  <option value="Vợ chồng cháu">Vợ chồng cháu</option>
+              </select>
+          </div>
+          <div class="form-group">
+              <label for="dearText">dearText (VN):</label>
+              <!-- <textarea id="pronoun" rows="3"></textarea> -->
+              <select id="dearText" name="dearText">
+                  <option value="Thân gửi">Thân gửi</option>
+                  <option value="Kính gửi">Kính gửi</option>
+              </select>
+          </div>
+
+          <div class="form-group">
+            <label for="formality">Formality:</label>
+            <input type="checkbox" id="formality">
+          </div>
+          <div class="form-group">
+            <label for="hidePronounWithName">hidePronounWithName:</label>
+            <input type="checkbox" id="hidePronounWithName">
+          </div>
+
+          <div class="form-group">
+            <label for="vegetarian">Vegetarian:</label>
+            <input type="checkbox" id="vegetarian">
+          </div>
+
+          <div class="form-group">
+            <label for="note">Note:</label>
+            <input type="text" id="note">
+        </div>
+
+          <button type="submit">Submit</button>
+          <button type="button" id="cancel-update" class="hidden">Cancel</button>
+      </form>
+
+      <div>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Birthstone&family=Cormorant+Garamond&family=Dancing+Script&family=Great+Vibes&family=Imperial+Script&family=Libre+Bodoni&family=Macondo&family=Montserrat:wght@500&family=Nunito+Sans&family=Satisfy&family=Vujahday+Script&display=swap"
+            rel="stylesheet"
+          />
+          <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link
+            rel="stylesheet"
+            href="https://invitera.site/assets/css/bootstrap.css?v=2068466370"
+          />
+          <style>
+            @media (max-width: 768px) {
+              #wrapperUndangan .separatorQuotes {
+                display: none;
+              }
+              #wrapperUndangan .scrollableUndangan {
+                width: 100% !important;
+              }
+              #scroll-down {
+                display: none;
+              }
+              #button-open {
+                display: block;
+              }
+            }
+            .open-button {
+              display: block;
+              margin: 2em auto 0;
+              background: #ffffff94;
+              border: 0 solid #444;
+              padding: 5px 10px;
+              border-radius: 15px;
+              font-size: 14px;
+            }
+            .md-modal {
+              /* position: fixed; */
+              left: 0;
+              right: 0;
+              width: 50%;
+              max-width: 630px;
+              min-width: 320px;
+              height: auto;
+              z-index: 2000;
+              visibility: hidden;
+              -webkit-backface-visibility: hidden;
+              -moz-backface-visibility: hidden;
+              backface-visibility: hidden;
+            }
+            .md-show {
+              visibility: visible;
+            }
+            .md-overlay {
+              /* position: fixed; */
+              width: 100%;
+              height: 100%;
+              visibility: hidden;
+              top: 0;
+              left: 0;
+              z-index: 1000;
+              opacity: 0;
+              background: rgba(228, 240, 227, 0.8);
+              -webkit-transition: all 0.3s;
+              -moz-transition: all 0.3s;
+              transition: all 0.3s;
+            }
+            .md-show.md-effect-12 ~ .md-overlay {
+              background-position: center;
+              background-repeat: no-repeat;
+              background-size: cover;
+            }
+            .md-show.md-effect-12 .md-content {
+              -webkit-transform: scale(1);
+              -moz-transform: scale(1);
+              -ms-transform: scale(1);
+              transform: scale(1);
+              opacity: 1;
+            }
+            .content-modal {
+              position: relative;
+              width: 100%;
+            }
+    
+            .sectitle {
+              font-family: "Imperial Script", cursive;
+              font-weight: 900;
+            }
+            .dearText {
+              font-family: "EB Garamond", serif;
+              font-optical-sizing: auto;
+              font-weight: 400;
+              font-style: normal;
+            }
+            .btnstyle {
+              font-family: Montserrat, sans-serif;
+            }
+            .whitecolor {
+              color: #fff;
+            }
+            .guestcolor {
+              color: #bb8a0c;
+            }
+            .groombridecolor {
+              color: #8d181b;
+            }
+            .pinkcolor {
+              color: #db7ad6;
+            }
+            @keyframes blink {
+              0% {
+                opacity: 1;
+              }
+              50% {
+                opacity: 0;
+              }
+              100% {
+                opacity: 1;
+              }
+            }
+            @keyframes fadeInBottom {
+              from {
+                opacity: 0;
+                transform: translateY(100%);
+              }
+              to {
+                opacity: 1;
+              }
+            }
+          </style>
+        </div>
+
+      <!-- postcard -->
+      <div style="position: relative" class="postcard" id="postcard">
+          
+      <div style="position: absolute; width: 100%; top: 55%;">
+
+        <button
+          class="md-close btnstyle pinkcolor open-button"
+          id="fixedbutton"
+          data-astro-source-file="/Users/phuocpham/Projects/dear/src/pages/index.astro"
+          data-astro-source-loc="33:68"
+        >
+          <div class="whitecolor guestcolor guestcolor dearText" style="font-size: 2rem; margin-bottom: 0; padding-bottom: 0;">
+            <span id="dearLocaleText">Thân mời</span> <span class="guest-pronoun">Mr./Mrs./Ms.</span>
+          </div>
+          <div
+            class="sectitle whitecolor guestcolor guest-name"
+            style="font-size: 3.75rem; margin-top: 0; padding-top: 0;"
+          >
+            Guest Name
+          </div>
+        </button>
+      </div>
+
+      <div style="position: absolute; width: 100%; top: 75%;">
+
+        <button
+          class="md-close btnstyle pinkcolor open-button"
+          id="fixedbutton"
+          data-astro-source-file="/Users/phuocpham/Projects/dear/src/pages/index.astro"
+          data-astro-source-loc="33:68"
+        >
+          <div id="joyfullyInviteYouText" class="guestcolor" style="font-size: 1rem; margin-bottom: 0; padding-bottom: 0;">
+            Hận hạnh mời Hai Bạn đến dự<br>
+            đám cưới của vợ chồng mình
+          </div>
+          <div style="display: flex; justify-content: center; margin-top: 8px; margin-bottom: 8px">
+            <div id="qrcode" style="align-self: center;"></div>
+          </div>
+          <div id="pleaseScanToVisit" class="guestcolor" style="font-size: 1rem; margin-bottom: 0; padding-bottom: 0;">
+            Hai Bạn có thể quét mã để truy cập<br>
+            website của vợ chồng mình nhé.
+          </div>
+          
+        </button>
+      </div>
+
+        <img id="slider" src="images/IMG_4860.jpg" ></img>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <!-- script to generate postcard -->
+      <button id="generateButton">Generate Postcard</button>
+      <p id="status"></p>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+      </script>
+      <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+      <script>
+
+          document.getElementById('generateButton').addEventListener('click', () => {
+
+              document.getElementById('status').innerText = 'Generating...';
+              html2canvas(document.getElementById('postcard')).then(canvas => {
+                  const imgData = canvas.toDataURL('image/png');
+                  const link = document.createElement('a');
+                  link.href = imgData;
+                  link.download = 'postcard.png';
+                  link.click();
+                  document.getElementById('status').innerText = 'Postcard generated successfully!';
+              }).catch(error => {
+                  console.error('Error generating postcard:', error);
+                  document.getElementById('status').innerText = 'Failed to generate postcard.';
+              });
+          });
+      </script>
+
+
+      <!-- RSVP List -->
+      <h2>RSVP List</h2>
+      <table>
+          <thead>
+              <tr>
+                  <th>Unique ID</th>
+                  <th>Name</th>
+                  <th>Will Join</th>
+                  <th>Guests</th>
+                  <th>Email</th>
+                  <th>Pronoun</th>
+                  <th>Actions</th>
+                  <th>URL</th>
+                  <th>Vegetarian</th>
+                  <th>Note</th>
+                  <th>Will Join in Quang Ngai</th>
+                  <th>Will Join at another time</th>
+                  <th>WePronoun</th>
+                  <th>dearText</th>
+                  <th>formality</th>
+              </tr>
+          </thead>
+          <tbody id="rsvp-list">
+              <!-- Dynamic Content -->
+          </tbody>
+      </table>
+  </div>
+
+    <script type="module" src="appVi.js"></script>
+    <script type="module" src="wishesApp.js"></script>
+  </body>
+</html>

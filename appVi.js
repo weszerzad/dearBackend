@@ -71,7 +71,7 @@ function fetchRSVPs() {
                     <button class="action-btn edit-btn" data-id="${childSnapshot.key}">Edit</button>
                     <button class="action-btn delete-btn" data-id="${childSnapshot.key}">Delete</button>
                 </td>
-                <td><a href="${'https://wedding-invite.phuocnghi.live/' + childSnapshot.key + (selectedLanguage === 'vi' ? '?lang=vi' : '')}">link</a></td>
+                <td><a href="${'https://wedding-invite.phuocnghi.live/' + childSnapshot.key + '?lang=vi'}">link</a></td>
                 <td>${rsvp.vegetarian}</td>
                 <td>${rsvp.note}</td>
                 <td>${rsvp?.willJoinQN == "true" ? 'Yes' : (rsvp?.willJoinQN == "false" ? 'No' : 'Unanswered')}</td>
